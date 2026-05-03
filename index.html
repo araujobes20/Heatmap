@@ -1,0 +1,3025 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_6fd07c13104c68dcd2362e82dcdf1c81 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body>
+    
+    
+<div style="position:fixed;bottom:30px;left:30px;z-index:1000;background:white;
+     padding:14px 18px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.25);
+     font-family:Arial,sans-serif;font-size:12px;min-width:215px;">
+  <b style="font-size:13px">GeoParasite</b><br>
+  <span style="font-size:10px;color:#888">n=85 pontos georref.</span>
+  <div style="margin-top:8px">
+    <b>🔥 Risco Parasitário:</b><br>
+    <span style="display:inline-block;width:12px;height:12px;background:#aaaaaa;border-radius:2px;vertical-align:middle;margin-right:5px"></span>Assintomático (0)<br>
+    <span style="display:inline-block;width:12px;height:12px;background:#fecc5c;border-radius:2px;vertical-align:middle;margin-right:5px"></span>Baixo (1–2)<br>
+    <span style="display:inline-block;width:12px;height:12px;background:#fd8d3c;border-radius:2px;vertical-align:middle;margin-right:5px"></span>Moderado (3–5)<br>
+    <span style="display:inline-block;width:12px;height:12px;background:#bd0026;border-radius:2px;vertical-align:middle;margin-right:5px"></span>Alto (≥ 6)<br>
+  </div>
+  <div style="margin-top:8px">
+    <b>🏚️ Déficit Sanitário:</b><br>
+    <span style="display:inline-block;width:12px;height:12px;background:#edf8fb;border:1px solid #ccc;border-radius:2px;vertical-align:middle;margin-right:5px"></span>Adequado<br>
+    <span style="display:inline-block;width:12px;height:12px;background:#66c2a4;border-radius:2px;vertical-align:middle;margin-right:5px"></span>Moderado<br>
+    <span style="display:inline-block;width:12px;height:12px;background:#006d2c;border-radius:2px;vertical-align:middle;margin-right:5px"></span>Crítico<br>
+  </div>
+  <div style="margin-top:8px;font-size:10px;color:#666">
+    Ative/desative camadas no painel (↑ direita)
+  </div>
+</div>
+    
+<div style="position:fixed;top:15px;left:50%;transform:translateX(-50%);z-index:1000;
+     background:white;padding:8px 22px;border-radius:8px;
+     box-shadow:0 2px 8px rgba(0,0,0,0.2);font-family:Arial;font-size:13px;
+     font-weight:bold;color:#333;white-space:nowrap;">
+  🗺️ GeoParasite — Risco Parasitário &amp; Infraestrutura Sanitária
+</div>
+    
+            <div class="folium-map" id="map_6fd07c13104c68dcd2362e82dcdf1c81" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_6fd07c13104c68dcd2362e82dcdf1c81 = L.map(
+                "map_6fd07c13104c68dcd2362e82dcdf1c81",
+                {
+                    center: [-11.316941176470586, -37.34823529411764],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 11,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_4248892f23ed3e69f06780e65d3cef37 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_4248892f23ed3e69f06780e65d3cef37.addTo(map_6fd07c13104c68dcd2362e82dcdf1c81);
+        
+    
+            var feature_group_bbeb3b0f7eb16a46a357e705a2a1b264 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var heat_map_74e96c256819e3e50f40829275c5de6b = L.heatLayer(
+                [[-10.97, -37.04, 4.0], [-10.9, -37.09, 0.0], [-10.84, -37.06, 4.0], [-10.84, -37.06, 2.0], [-10.84, -37.06, 2.0], [-10.84, -37.06, 2.0], [-10.93, -37.08, 0.0], [-11.0, -37.09, 4.0], [-10.91, -37.08, 5.0], [-10.92, -37.05, 5.0], [-10.91, -37.09, 3.0], [-10.93, -37.08, 5.0], [-10.94, -37.09, 0.0], [-10.92, -37.08, 0.0], [-10.97, -37.08, 0.0], [-10.89, -37.13, 3.0], [-10.93, -37.11, 2.0], [-10.94, -37.06, 5.0], [-10.97, -37.05, 0.0], [-10.94, -37.07, 4.0], [-10.89, -37.0, 3.0], [-10.9, -37.1, 5.0], [-10.69, -37.42, 5.0], [-10.92, -37.11, 4.0], [-10.94, -37.11, 0.0], [-10.94, -37.06, 7.0], [-10.94, -37.07, 0.0], [-10.94, -37.06, 0.0], [-10.93, -37.12, 0.0], [-11.85, -37.56, 4.0], [-10.99, -37.1, 6.0], [-10.94, -37.05, 0.0], [-10.9, -37.04, 5.0], [-10.92, -37.03, 0.0], [-10.99, -37.1, 7.0], [-10.97, -37.09, 0.0], [-10.96, -37.06, 0.0], [-10.94, -37.1, 2.0], [-10.94, -37.08, 0.0], [-10.89, -37.08, 0.0], [-10.91, -37.07, 0.0], [-10.98, -37.05, 0.0], [-10.97, -37.08, 0.0], [-11.82, -37.63, 0.0], [-11.79, -37.63, 6.0], [-10.94, -37.09, 2.0], [-11.8, -37.68, 0.0], [-11.8, -37.62, 5.0], [-10.94, -37.07, 0.0], [-11.26, -37.43, 4.0], [-10.94, -37.07, 0.0], [-10.94, -37.07, 0.0], [-10.94, -37.12, 4.0], [-10.97, -37.06, 0.0], [-10.97, -37.06, 0.0], [-11.82, -37.63, 0.0], [-10.94, -37.07, 0.0], [-10.89, -37.12, 0.0], [-23.78, -45.56, 0.0], [-11.77, -37.8, 4.0], [-10.94, -37.12, 0.0], [-10.97, -37.07, 0.0], [-11.06, -37.11, 4.0], [-22.73, -44.14, 6.0], [-10.94, -37.06, 2.0], [-11.79, -37.62, 7.0], [-10.88, -36.99, 0.0], [-10.91, -37.02, 0.0], [-10.94, -37.07, 0.0], [-10.93, -37.06, 0.0], [-11.79, -37.62, 6.0], [-10.93, -37.05, 0.0], [-9.8, -37.69, 0.0], [-11.0, -37.11, 0.0], [-11.49, -37.75, 4.0], [-10.86, -37.09, 0.0], [-11.81, -37.62, 0.0], [-10.91, -37.1, 5.0], [-10.89, -37.1, 0.0], [-10.92, -37.05, 5.0], [-10.9, -37.1, 2.0], [-10.9, -37.1, 0.0], [-10.92, -37.07, 8.0], [-10.94, -37.08, 0.0], [-10.91, -37.05, 4.0]],
+                {
+  "minOpacity": 0.25,
+  "maxZoom": 13,
+  "radius": 22,
+  "blur": 18,
+  "gradient": {
+  0.0: "#ffffb2",
+  0.25: "#fecc5c",
+  0.5: "#fd8d3c",
+  0.75: "#f03b20",
+  1.0: "#bd0026",
+},
+}
+            );
+        
+    
+            heat_map_74e96c256819e3e50f40829275c5de6b.addTo(feature_group_bbeb3b0f7eb16a46a357e705a2a1b264);
+        
+    
+            feature_group_bbeb3b0f7eb16a46a357e705a2a1b264.addTo(map_6fd07c13104c68dcd2362e82dcdf1c81);
+        
+    
+            var feature_group_cff900492c87691dcc320a2cae8cc87f = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var heat_map_1cb90a80462405ba77a4e9976593a7a1 = L.heatLayer(
+                [[-10.97, -37.04, 6.7], [-10.9, -37.09, 0.0], [-10.84, -37.06, 0.0], [-10.84, -37.06, 0.0], [-10.84, -37.06, 0.0], [-10.84, -37.06, 0.0], [-10.93, -37.08, 0.0], [-11.0, -37.09, 3.3], [-10.91, -37.08, 0.0], [-10.92, -37.05, 0.0], [-10.91, -37.09, 0.0], [-10.93, -37.08, 0.0], [-10.94, -37.09, 0.0], [-10.92, -37.08, 0.0], [-10.97, -37.08, 0.0], [-10.89, -37.13, 1.7], [-10.93, -37.11, 0.0], [-10.94, -37.06, 0.0], [-10.97, -37.05, 1.7], [-10.94, -37.07, 0.0], [-10.89, -37.0, 0.0], [-10.9, -37.1, 1.7], [-10.69, -37.42, 0.0], [-10.92, -37.11, 0.0], [-10.94, -37.11, 0.0], [-10.94, -37.06, 0.0], [-10.94, -37.07, 0.0], [-10.94, -37.06, 0.0], [-10.93, -37.12, 0.0], [-11.85, -37.56, 3.3], [-10.99, -37.1, 0.0], [-10.94, -37.05, 0.0], [-10.9, -37.04, 0.0], [-10.92, -37.03, 0.0], [-10.99, -37.1, 0.0], [-10.97, -37.09, 0.0], [-10.96, -37.06, 0.0], [-10.94, -37.1, 0.0], [-10.94, -37.08, 0.0], [-10.89, -37.08, 0.0], [-10.91, -37.07, 0.0], [-10.98, -37.05, 0.0], [-10.97, -37.08, 0.0], [-11.82, -37.63, 0.0], [-11.79, -37.63, 1.7], [-10.94, -37.09, 0.0], [-11.8, -37.68, 10.0], [-11.8, -37.62, 3.3], [-10.94, -37.07, 0.0], [-11.26, -37.43, 0.0], [-10.94, -37.07, 0.0], [-10.94, -37.07, 0.0], [-10.94, -37.12, 6.7], [-10.97, -37.06, 0.0], [-10.97, -37.06, 0.0], [-11.82, -37.63, 3.3], [-10.94, -37.07, 0.0], [-10.89, -37.12, 0.0], [-23.78, -45.56, 8.3], [-11.77, -37.8, 0.0], [-10.94, -37.12, 0.0], [-10.97, -37.07, 0.0], [-11.06, -37.11, 0.0], [-22.73, -44.14, 6.7], [-10.94, -37.06, 0.0], [-11.79, -37.62, 5.0], [-10.88, -36.99, 3.3], [-10.91, -37.02, 0.0], [-10.94, -37.07, 0.0], [-10.93, -37.06, 0.0], [-11.79, -37.62, 1.7], [-10.93, -37.05, 0.0], [-9.8, -37.69, 5.0], [-11.0, -37.11, 0.0], [-11.49, -37.75, 5.0], [-10.86, -37.09, 0.0], [-11.81, -37.62, 3.3], [-10.91, -37.1, 5.0], [-10.89, -37.1, 0.0], [-10.92, -37.05, 3.3], [-10.9, -37.1, 3.3], [-10.9, -37.1, 0.0], [-10.92, -37.07, 0.0], [-10.94, -37.08, 0.0], [-10.91, -37.05, 0.0]],
+                {
+  "minOpacity": 0.25,
+  "maxZoom": 13,
+  "radius": 22,
+  "blur": 18,
+  "gradient": {
+  0.0: "#edf8fb",
+  0.3: "#b2e2e2",
+  0.6: "#66c2a4",
+  0.85: "#2ca25f",
+  1.0: "#006d2c",
+},
+}
+            );
+        
+    
+            heat_map_1cb90a80462405ba77a4e9976593a7a1.addTo(feature_group_cff900492c87691dcc320a2cae8cc87f);
+        
+    
+            var feature_group_a28be1f37d5f48ed7f396990004f52ed = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_b56ec968b77be152aa470b88a75de777 = L.circleMarker(
+                [-10.97, -37.04],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_4f3144707c2e13e0427aac9879b3e933 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_7dd85b99e0bbb6b84138c1905254a4fc = $(`<div id="html_7dd85b99e0bbb6b84138c1905254a4fc" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Amebíase<br>       <b>Sexo:</b> Outro | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Poço ou nascente<br>       <b>Água (tratamento):</b> Cloração<br>       <b>Esgoto:</b> Fossa séptica<br>       <b>Lixo:</b> Coleta irregular<br>       <b>Déficit sanitário:</b> 6.7/10     </div>     </div>`)[0];
+                popup_4f3144707c2e13e0427aac9879b3e933.setContent(html_7dd85b99e0bbb6b84138c1905254a4fc);
+            
+        
+
+        circle_marker_b56ec968b77be152aa470b88a75de777.bindPopup(popup_4f3144707c2e13e0427aac9879b3e933)
+        ;
+
+        
+    
+    
+            circle_marker_b56ec968b77be152aa470b88a75de777.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 6.7/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_09c5f32b5fc9d5211135f3398a42eb29 = L.circleMarker(
+                [-10.9, -37.09],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_c520fc4fd280a908b58a8a8bc8226993 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2e989b176196928b8dcc052a0d669104 = $(`<div id="html_2e989b176196928b8dcc052a0d669104" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_c520fc4fd280a908b58a8a8bc8226993.setContent(html_2e989b176196928b8dcc052a0d669104);
+            
+        
+
+        circle_marker_09c5f32b5fc9d5211135f3398a42eb29.bindPopup(popup_c520fc4fd280a908b58a8a8bc8226993)
+        ;
+
+        
+    
+    
+            circle_marker_09c5f32b5fc9d5211135f3398a42eb29.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_db2f1ba8409a24763d9623a7c8b86bbb = L.circleMarker(
+                [-10.84, -37.06],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_7727760d9237a6d2f1cbf99196e6a4c1 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f42d3bd7acc46e1a115a0240578793c3 = $(`<div id="html_f42d3bd7acc46e1a115a0240578793c3" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_7727760d9237a6d2f1cbf99196e6a4c1.setContent(html_f42d3bd7acc46e1a115a0240578793c3);
+            
+        
+
+        circle_marker_db2f1ba8409a24763d9623a7c8b86bbb.bindPopup(popup_7727760d9237a6d2f1cbf99196e6a4c1)
+        ;
+
+        
+    
+    
+            circle_marker_db2f1ba8409a24763d9623a7c8b86bbb.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bd15f6078bcae6f91cbdd37fa22e20d4 = L.circleMarker(
+                [-10.84, -37.06],
+                {"bubblingMouseEvents": true, "color": "#fecc5c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fecc5c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_394d359a9af3808f4225e9da89203e0e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_ef79ffad70c591438fe15d6a362ea57c = $(`<div id="html_ef79ffad70c591438fe15d6a362ea57c" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Nossa Senhora De Socorro</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 2.0<br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_394d359a9af3808f4225e9da89203e0e.setContent(html_ef79ffad70c591438fe15d6a362ea57c);
+            
+        
+
+        circle_marker_bd15f6078bcae6f91cbdd37fa22e20d4.bindPopup(popup_394d359a9af3808f4225e9da89203e0e)
+        ;
+
+        
+    
+    
+            circle_marker_bd15f6078bcae6f91cbdd37fa22e20d4.bindTooltip(
+                `<div>
+                     Escore: 2.0 | Déficit: 0.0/10 | Nossa Senhora De Socorro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bc131b44f6c1361ff3809b67f011a22d = L.circleMarker(
+                [-10.84, -37.06],
+                {"bubblingMouseEvents": true, "color": "#fecc5c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fecc5c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_c2d83a2f5d5d4441613c00e732dc81c4 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_8ca14fda272526d0d842e7a0c6a48fc0 = $(`<div id="html_8ca14fda272526d0d842e7a0c6a48fc0" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Nossa Senhora De Socorro</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 2.0<br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_c2d83a2f5d5d4441613c00e732dc81c4.setContent(html_8ca14fda272526d0d842e7a0c6a48fc0);
+            
+        
+
+        circle_marker_bc131b44f6c1361ff3809b67f011a22d.bindPopup(popup_c2d83a2f5d5d4441613c00e732dc81c4)
+        ;
+
+        
+    
+    
+            circle_marker_bc131b44f6c1361ff3809b67f011a22d.bindTooltip(
+                `<div>
+                     Escore: 2.0 | Déficit: 0.0/10 | Nossa Senhora De Socorro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fabb2d29aa74d40a9626f0a3bf4a04c0 = L.circleMarker(
+                [-10.84, -37.06],
+                {"bubblingMouseEvents": true, "color": "#fecc5c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fecc5c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_1474715a550e64b79022e246c25d354c = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1211e5e6dec6c4d631cd1b6175d094b5 = $(`<div id="html_1211e5e6dec6c4d631cd1b6175d094b5" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Nossa Senhora De Socorro</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 2.0<br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_1474715a550e64b79022e246c25d354c.setContent(html_1211e5e6dec6c4d631cd1b6175d094b5);
+            
+        
+
+        circle_marker_fabb2d29aa74d40a9626f0a3bf4a04c0.bindPopup(popup_1474715a550e64b79022e246c25d354c)
+        ;
+
+        
+    
+    
+            circle_marker_fabb2d29aa74d40a9626f0a3bf4a04c0.bindTooltip(
+                `<div>
+                     Escore: 2.0 | Déficit: 0.0/10 | Nossa Senhora De Socorro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_deb10ccc2b678e389c529e088daf55b6 = L.circleMarker(
+                [-10.93, -37.08],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_a471929891d4ea10661a90ee851d9976 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9a29fe36c648832eb931bf97682bdf1b = $(`<div id="html_9a29fe36c648832eb931bf97682bdf1b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_a471929891d4ea10661a90ee851d9976.setContent(html_9a29fe36c648832eb931bf97682bdf1b);
+            
+        
+
+        circle_marker_deb10ccc2b678e389c529e088daf55b6.bindPopup(popup_a471929891d4ea10661a90ee851d9976)
+        ;
+
+        
+    
+    
+            circle_marker_deb10ccc2b678e389c529e088daf55b6.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0fc7d01f263dfa1cd25e556ca8e463ee = L.circleMarker(
+                [-11.0, -37.09],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_2ceef3fe8a7b427f7b47807e34475403 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_0463d7ec54d6734c248d9e7e327f1d11 = $(`<div id="html_0463d7ec54d6734c248d9e7e327f1d11" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Outra<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 3.3/10     </div>     </div>`)[0];
+                popup_2ceef3fe8a7b427f7b47807e34475403.setContent(html_0463d7ec54d6734c248d9e7e327f1d11);
+            
+        
+
+        circle_marker_0fc7d01f263dfa1cd25e556ca8e463ee.bindPopup(popup_2ceef3fe8a7b427f7b47807e34475403)
+        ;
+
+        
+    
+    
+            circle_marker_0fc7d01f263dfa1cd25e556ca8e463ee.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 3.3/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_899e5c7ec50dffd8c73002607f22ba32 = L.circleMarker(
+                [-10.91, -37.08],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_ef6bd766776d0ddced47541ba7d85f31 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_6e2fe87930c097813ab709e0672b3071 = $(`<div id="html_6e2fe87930c097813ab709e0672b3071" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_ef6bd766776d0ddced47541ba7d85f31.setContent(html_6e2fe87930c097813ab709e0672b3071);
+            
+        
+
+        circle_marker_899e5c7ec50dffd8c73002607f22ba32.bindPopup(popup_ef6bd766776d0ddced47541ba7d85f31)
+        ;
+
+        
+    
+    
+            circle_marker_899e5c7ec50dffd8c73002607f22ba32.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_987bbbda1b5d160a119f44b8951facdf = L.circleMarker(
+                [-10.92, -37.05],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_c033ac1d251cf127826bfd221c3d8e38 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d6364d68a40b08574b1be5aa7450fb1c = $(`<div id="html_d6364d68a40b08574b1be5aa7450fb1c" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Nossa Senhora Do Socorro</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_c033ac1d251cf127826bfd221c3d8e38.setContent(html_d6364d68a40b08574b1be5aa7450fb1c);
+            
+        
+
+        circle_marker_987bbbda1b5d160a119f44b8951facdf.bindPopup(popup_c033ac1d251cf127826bfd221c3d8e38)
+        ;
+
+        
+    
+    
+            circle_marker_987bbbda1b5d160a119f44b8951facdf.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 0.0/10 | Nossa Senhora Do Socorro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_14d888b5a01f12b8c7f6a2f1cc99a87c = L.circleMarker(
+                [-10.91, -37.09],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_aaa4cc1923687279cc24555d383b1f3e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d4345a0252edc0c66a6f5687b5a38b03 = $(`<div id="html_d4345a0252edc0c66a6f5687b5a38b03" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 3.0<br>       <b>Perfil:</b> Amebíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_aaa4cc1923687279cc24555d383b1f3e.setContent(html_d4345a0252edc0c66a6f5687b5a38b03);
+            
+        
+
+        circle_marker_14d888b5a01f12b8c7f6a2f1cc99a87c.bindPopup(popup_aaa4cc1923687279cc24555d383b1f3e)
+        ;
+
+        
+    
+    
+            circle_marker_14d888b5a01f12b8c7f6a2f1cc99a87c.bindTooltip(
+                `<div>
+                     Escore: 3.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cd4ce28e2000e24d9a636fab0da33be6 = L.circleMarker(
+                [-10.93, -37.08],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_3a3eaeaa970a4f252dbc9fdeca78a03d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_814b54206a98550d02429b4f81a5eeca = $(`<div id="html_814b54206a98550d02429b4f81a5eeca" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_3a3eaeaa970a4f252dbc9fdeca78a03d.setContent(html_814b54206a98550d02429b4f81a5eeca);
+            
+        
+
+        circle_marker_cd4ce28e2000e24d9a636fab0da33be6.bindPopup(popup_3a3eaeaa970a4f252dbc9fdeca78a03d)
+        ;
+
+        
+    
+    
+            circle_marker_cd4ce28e2000e24d9a636fab0da33be6.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e9f176c59ff4a798f24ebde7e91f6027 = L.circleMarker(
+                [-10.94, -37.09],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_089d10a51bdd279b0b5e037b77c8d456 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f2b72451396b9f1cb9792d25eb7417e6 = $(`<div id="html_f2b72451396b9f1cb9792d25eb7417e6" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_089d10a51bdd279b0b5e037b77c8d456.setContent(html_f2b72451396b9f1cb9792d25eb7417e6);
+            
+        
+
+        circle_marker_e9f176c59ff4a798f24ebde7e91f6027.bindPopup(popup_089d10a51bdd279b0b5e037b77c8d456)
+        ;
+
+        
+    
+    
+            circle_marker_e9f176c59ff4a798f24ebde7e91f6027.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6a0b7cf695ebc8864697962fb0d0a140 = L.circleMarker(
+                [-10.92, -37.08],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_a4240805ce26b2de6d2efb09a706e990 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_3cb8c9d6906cfa4af1d1ae0e4a579e77 = $(`<div id="html_3cb8c9d6906cfa4af1d1ae0e4a579e77" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_a4240805ce26b2de6d2efb09a706e990.setContent(html_3cb8c9d6906cfa4af1d1ae0e4a579e77);
+            
+        
+
+        circle_marker_6a0b7cf695ebc8864697962fb0d0a140.bindPopup(popup_a4240805ce26b2de6d2efb09a706e990)
+        ;
+
+        
+    
+    
+            circle_marker_6a0b7cf695ebc8864697962fb0d0a140.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_822ca6772138c204f16b7d6ec27aa76b = L.circleMarker(
+                [-10.97, -37.08],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_0baacc2f71d8a1533ce2db5325c7c41d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_ca772721507fc3b6b472298e325415ab = $(`<div id="html_ca772721507fc3b6b472298e325415ab" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_0baacc2f71d8a1533ce2db5325c7c41d.setContent(html_ca772721507fc3b6b472298e325415ab);
+            
+        
+
+        circle_marker_822ca6772138c204f16b7d6ec27aa76b.bindPopup(popup_0baacc2f71d8a1533ce2db5325c7c41d)
+        ;
+
+        
+    
+    
+            circle_marker_822ca6772138c204f16b7d6ec27aa76b.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3f11748a89cba79ad21f4fc2865c89fd = L.circleMarker(
+                [-10.89, -37.13],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_754673ec4f28ded2936fbf127590f708 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_354417546763582bef3097ea97b808c0 = $(`<div id="html_354417546763582bef3097ea97b808c0" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Nossa Senhora Do Socorro</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 3.0<br>       <b>Perfil:</b> Amebíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta irregular<br>       <b>Déficit sanitário:</b> 1.7/10     </div>     </div>`)[0];
+                popup_754673ec4f28ded2936fbf127590f708.setContent(html_354417546763582bef3097ea97b808c0);
+            
+        
+
+        circle_marker_3f11748a89cba79ad21f4fc2865c89fd.bindPopup(popup_754673ec4f28ded2936fbf127590f708)
+        ;
+
+        
+    
+    
+            circle_marker_3f11748a89cba79ad21f4fc2865c89fd.bindTooltip(
+                `<div>
+                     Escore: 3.0 | Déficit: 1.7/10 | Nossa Senhora Do Socorro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d9bd612eef9f01320d79ed447975d376 = L.circleMarker(
+                [-10.93, -37.11],
+                {"bubblingMouseEvents": true, "color": "#fecc5c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fecc5c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_44e2fca0bb1365fa543e4e191fdb69ee = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1eca8d034d1d4ec56fe755d9a0fb92d4 = $(`<div id="html_1eca8d034d1d4ec56fe755d9a0fb92d4" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 2.0<br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_44e2fca0bb1365fa543e4e191fdb69ee.setContent(html_1eca8d034d1d4ec56fe755d9a0fb92d4);
+            
+        
+
+        circle_marker_d9bd612eef9f01320d79ed447975d376.bindPopup(popup_44e2fca0bb1365fa543e4e191fdb69ee)
+        ;
+
+        
+    
+    
+            circle_marker_d9bd612eef9f01320d79ed447975d376.bindTooltip(
+                `<div>
+                     Escore: 2.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8adc1195104f05f62caab4a9e3cfbdca = L.circleMarker(
+                [-10.94, -37.06],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_d856713b02cec1f1887c70604a5c9ca3 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9dd602e58b6764212e3135ab4fb073df = $(`<div id="html_9dd602e58b6764212e3135ab4fb073df" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_d856713b02cec1f1887c70604a5c9ca3.setContent(html_9dd602e58b6764212e3135ab4fb073df);
+            
+        
+
+        circle_marker_8adc1195104f05f62caab4a9e3cfbdca.bindPopup(popup_d856713b02cec1f1887c70604a5c9ca3)
+        ;
+
+        
+    
+    
+            circle_marker_8adc1195104f05f62caab4a9e3cfbdca.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_eeb0eeba13b1d4a0dec070ea9e9c4415 = L.circleMarker(
+                [-10.97, -37.05],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_de1cf6245484fb2c0c4dc70a288e0832 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_04210b67b0b6c3c00a97b39a0872fd69 = $(`<div id="html_04210b67b0b6c3c00a97b39a0872fd69" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Fossa séptica<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 1.7/10     </div>     </div>`)[0];
+                popup_de1cf6245484fb2c0c4dc70a288e0832.setContent(html_04210b67b0b6c3c00a97b39a0872fd69);
+            
+        
+
+        circle_marker_eeb0eeba13b1d4a0dec070ea9e9c4415.bindPopup(popup_de1cf6245484fb2c0c4dc70a288e0832)
+        ;
+
+        
+    
+    
+            circle_marker_eeb0eeba13b1d4a0dec070ea9e9c4415.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 1.7/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5cc80aecb18de391b961ef9d6518df82 = L.circleMarker(
+                [-10.94, -37.07],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_1256e677dafc2498f0aa8c12f30cf307 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d8d25c21582f187f66aacdacc11a0b26 = $(`<div id="html_d8d25c21582f187f66aacdacc11a0b26" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_1256e677dafc2498f0aa8c12f30cf307.setContent(html_d8d25c21582f187f66aacdacc11a0b26);
+            
+        
+
+        circle_marker_5cc80aecb18de391b961ef9d6518df82.bindPopup(popup_1256e677dafc2498f0aa8c12f30cf307)
+        ;
+
+        
+    
+    
+            circle_marker_5cc80aecb18de391b961ef9d6518df82.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_03f0cde3232342a49e769c06c2d8c93f = L.circleMarker(
+                [-10.89, -37.0],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_05a507da83a5781910613d17827e832f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_17e3836a8a0cedc57ffd1097b3bed936 = $(`<div id="html_17e3836a8a0cedc57ffd1097b3bed936" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 3.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_05a507da83a5781910613d17827e832f.setContent(html_17e3836a8a0cedc57ffd1097b3bed936);
+            
+        
+
+        circle_marker_03f0cde3232342a49e769c06c2d8c93f.bindPopup(popup_05a507da83a5781910613d17827e832f)
+        ;
+
+        
+    
+    
+            circle_marker_03f0cde3232342a49e769c06c2d8c93f.bindTooltip(
+                `<div>
+                     Escore: 3.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8c4a04282f5df990aba600fdf4aea229 = L.circleMarker(
+                [-10.9, -37.1],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_64d7f87c7cf89f1ccc4fb8bff8f782c4 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_4e194ec8e1360b1ceab793666f7f469b = $(`<div id="html_4e194ec8e1360b1ceab793666f7f469b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta irregular<br>       <b>Déficit sanitário:</b> 1.7/10     </div>     </div>`)[0];
+                popup_64d7f87c7cf89f1ccc4fb8bff8f782c4.setContent(html_4e194ec8e1360b1ceab793666f7f469b);
+            
+        
+
+        circle_marker_8c4a04282f5df990aba600fdf4aea229.bindPopup(popup_64d7f87c7cf89f1ccc4fb8bff8f782c4)
+        ;
+
+        
+    
+    
+            circle_marker_8c4a04282f5df990aba600fdf4aea229.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 1.7/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1d11478e9ba54f02848267ea17e2e087 = L.circleMarker(
+                [-10.69, -37.42],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_be7bbb19c3c9069a8cc52d3cb2c37e5d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f3dbedaed24c778af27ae2163616313b = $(`<div id="html_f3dbedaed24c778af27ae2163616313b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Enterobíase (Oxiúros)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_be7bbb19c3c9069a8cc52d3cb2c37e5d.setContent(html_f3dbedaed24c778af27ae2163616313b);
+            
+        
+
+        circle_marker_1d11478e9ba54f02848267ea17e2e087.bindPopup(popup_be7bbb19c3c9069a8cc52d3cb2c37e5d)
+        ;
+
+        
+    
+    
+            circle_marker_1d11478e9ba54f02848267ea17e2e087.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9518ea57d2e90df55ba4166d5595b5ea = L.circleMarker(
+                [-10.92, -37.11],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_6694a4448f9463e61a1e173c991b4c82 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_85fb88ccc38e1b700c477bdf947258e0 = $(`<div id="html_85fb88ccc38e1b700c477bdf947258e0" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> Menos de 18 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_6694a4448f9463e61a1e173c991b4c82.setContent(html_85fb88ccc38e1b700c477bdf947258e0);
+            
+        
+
+        circle_marker_9518ea57d2e90df55ba4166d5595b5ea.bindPopup(popup_6694a4448f9463e61a1e173c991b4c82)
+        ;
+
+        
+    
+    
+            circle_marker_9518ea57d2e90df55ba4166d5595b5ea.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_a31043ffcc6982802a6daf8fd9e3d91c = L.circleMarker(
+                [-10.94, -37.11],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_cf33cf5c0af49a921c24aa12de437ef2 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_01f056339728eacd946d5c08007aa60a = $(`<div id="html_01f056339728eacd946d5c08007aa60a" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 São Cristóvão</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_cf33cf5c0af49a921c24aa12de437ef2.setContent(html_01f056339728eacd946d5c08007aa60a);
+            
+        
+
+        circle_marker_a31043ffcc6982802a6daf8fd9e3d91c.bindPopup(popup_cf33cf5c0af49a921c24aa12de437ef2)
+        ;
+
+        
+    
+    
+            circle_marker_a31043ffcc6982802a6daf8fd9e3d91c.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | São Cristóvão
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_621381bdb06e8458acd5df6c7cdcc00f = L.circleMarker(
+                [-10.94, -37.06],
+                {"bubblingMouseEvents": true, "color": "#bd0026", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bd0026", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_5be06ce68e94d0de54ad80f7a1c7ae03 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_474c997707e2c65988412fb68fc6df4b = $(`<div id="html_474c997707e2c65988412fb68fc6df4b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 7.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_5be06ce68e94d0de54ad80f7a1c7ae03.setContent(html_474c997707e2c65988412fb68fc6df4b);
+            
+        
+
+        circle_marker_621381bdb06e8458acd5df6c7cdcc00f.bindPopup(popup_5be06ce68e94d0de54ad80f7a1c7ae03)
+        ;
+
+        
+    
+    
+            circle_marker_621381bdb06e8458acd5df6c7cdcc00f.bindTooltip(
+                `<div>
+                     Escore: 7.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5424fe16ed4b60efffbfc788c9e54de0 = L.circleMarker(
+                [-10.94, -37.07],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_91311a384318864179b723adf5366972 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9e9ddc11567038e020569ec6b335b629 = $(`<div id="html_9e9ddc11567038e020569ec6b335b629" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_91311a384318864179b723adf5366972.setContent(html_9e9ddc11567038e020569ec6b335b629);
+            
+        
+
+        circle_marker_5424fe16ed4b60efffbfc788c9e54de0.bindPopup(popup_91311a384318864179b723adf5366972)
+        ;
+
+        
+    
+    
+            circle_marker_5424fe16ed4b60efffbfc788c9e54de0.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_70e73ee6b418d17f10d558e4692e9d9a = L.circleMarker(
+                [-10.94, -37.06],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_ee2797947c8c00402c367809b9b4f23e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_b4ade447c8f5d41dea7ce142c193b97b = $(`<div id="html_b4ade447c8f5d41dea7ce142c193b97b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_ee2797947c8c00402c367809b9b4f23e.setContent(html_b4ade447c8f5d41dea7ce142c193b97b);
+            
+        
+
+        circle_marker_70e73ee6b418d17f10d558e4692e9d9a.bindPopup(popup_ee2797947c8c00402c367809b9b4f23e)
+        ;
+
+        
+    
+    
+            circle_marker_70e73ee6b418d17f10d558e4692e9d9a.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_400160c00a95aedbff86ab19b2e12711 = L.circleMarker(
+                [-10.93, -37.12],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_3ddb1cd56e018c79bb4e483bb500af7e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_31c5eb4908251cd352ad1b0204777076 = $(`<div id="html_31c5eb4908251cd352ad1b0204777076" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_3ddb1cd56e018c79bb4e483bb500af7e.setContent(html_31c5eb4908251cd352ad1b0204777076);
+            
+        
+
+        circle_marker_400160c00a95aedbff86ab19b2e12711.bindPopup(popup_3ddb1cd56e018c79bb4e483bb500af7e)
+        ;
+
+        
+    
+    
+            circle_marker_400160c00a95aedbff86ab19b2e12711.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9452491816f8809c93c2626ee25db2c7 = L.circleMarker(
+                [-11.85, -37.56],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_e593ed0588d96b9b1119694c20eb3562 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_06f2218c5740e99676bf0f01b8fee60e = $(`<div id="html_06f2218c5740e99676bf0f01b8fee60e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde-Ba</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 3.3/10     </div>     </div>`)[0];
+                popup_e593ed0588d96b9b1119694c20eb3562.setContent(html_06f2218c5740e99676bf0f01b8fee60e);
+            
+        
+
+        circle_marker_9452491816f8809c93c2626ee25db2c7.bindPopup(popup_e593ed0588d96b9b1119694c20eb3562)
+        ;
+
+        
+    
+    
+            circle_marker_9452491816f8809c93c2626ee25db2c7.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 3.3/10 | Conde-Ba
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0a300fd60f2f9918331eae39f1d43445 = L.circleMarker(
+                [-10.99, -37.1],
+                {"bubblingMouseEvents": true, "color": "#bd0026", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bd0026", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_954a58a1be764f73ceaa24b18df7ffb6 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f31a3c77ef5679de0bf689dbd1ced4c9 = $(`<div id="html_f31a3c77ef5679de0bf689dbd1ced4c9" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 6.0<br>       <b>Perfil:</b> Enterobíase (Oxiúros)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_954a58a1be764f73ceaa24b18df7ffb6.setContent(html_f31a3c77ef5679de0bf689dbd1ced4c9);
+            
+        
+
+        circle_marker_0a300fd60f2f9918331eae39f1d43445.bindPopup(popup_954a58a1be764f73ceaa24b18df7ffb6)
+        ;
+
+        
+    
+    
+            circle_marker_0a300fd60f2f9918331eae39f1d43445.bindTooltip(
+                `<div>
+                     Escore: 6.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_62732947bf20fbdd49730ed1b33380d8 = L.circleMarker(
+                [-10.94, -37.05],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_17f468a222933f56a4c4c23f91920bd3 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a48045e057c9b58688b8052a96a48412 = $(`<div id="html_a48045e057c9b58688b8052a96a48412" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_17f468a222933f56a4c4c23f91920bd3.setContent(html_a48045e057c9b58688b8052a96a48412);
+            
+        
+
+        circle_marker_62732947bf20fbdd49730ed1b33380d8.bindPopup(popup_17f468a222933f56a4c4c23f91920bd3)
+        ;
+
+        
+    
+    
+            circle_marker_62732947bf20fbdd49730ed1b33380d8.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0c3fbd2244116c2f9554678754ac1691 = L.circleMarker(
+                [-10.9, -37.04],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_97edb3ed93d09007bd9bd1a5d790bbbe = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_44b24116f6baabb0a19578b7f7161d0a = $(`<div id="html_44b24116f6baabb0a19578b7f7161d0a" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Cloração<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_97edb3ed93d09007bd9bd1a5d790bbbe.setContent(html_44b24116f6baabb0a19578b7f7161d0a);
+            
+        
+
+        circle_marker_0c3fbd2244116c2f9554678754ac1691.bindPopup(popup_97edb3ed93d09007bd9bd1a5d790bbbe)
+        ;
+
+        
+    
+    
+            circle_marker_0c3fbd2244116c2f9554678754ac1691.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_878968ca02a175e2a31177887e888891 = L.circleMarker(
+                [-10.92, -37.03],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_07bea5eaa8cba450f587484588a502ee = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_fcacd7d060601c792d27d567cee3ba71 = $(`<div id="html_fcacd7d060601c792d27d567cee3ba71" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Barra Dos Coqueiros</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_07bea5eaa8cba450f587484588a502ee.setContent(html_fcacd7d060601c792d27d567cee3ba71);
+            
+        
+
+        circle_marker_878968ca02a175e2a31177887e888891.bindPopup(popup_07bea5eaa8cba450f587484588a502ee)
+        ;
+
+        
+    
+    
+            circle_marker_878968ca02a175e2a31177887e888891.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Barra Dos Coqueiros
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b7250810b94071e5b21c355d8302601d = L.circleMarker(
+                [-10.99, -37.1],
+                {"bubblingMouseEvents": true, "color": "#bd0026", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bd0026", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_42fb10160749c0355a5becbc93b3e490 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_dec11ee9878e6aa38df00703feab2286 = $(`<div id="html_dec11ee9878e6aa38df00703feab2286" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 7.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_42fb10160749c0355a5becbc93b3e490.setContent(html_dec11ee9878e6aa38df00703feab2286);
+            
+        
+
+        circle_marker_b7250810b94071e5b21c355d8302601d.bindPopup(popup_42fb10160749c0355a5becbc93b3e490)
+        ;
+
+        
+    
+    
+            circle_marker_b7250810b94071e5b21c355d8302601d.bindTooltip(
+                `<div>
+                     Escore: 7.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f077f02fee95002864502c3b6868c278 = L.circleMarker(
+                [-10.97, -37.09],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_3a40a64385d29524eb51a4a692c36665 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d20b512c8b8fd0b08145d9339fd38eba = $(`<div id="html_d20b512c8b8fd0b08145d9339fd38eba" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_3a40a64385d29524eb51a4a692c36665.setContent(html_d20b512c8b8fd0b08145d9339fd38eba);
+            
+        
+
+        circle_marker_f077f02fee95002864502c3b6868c278.bindPopup(popup_3a40a64385d29524eb51a4a692c36665)
+        ;
+
+        
+    
+    
+            circle_marker_f077f02fee95002864502c3b6868c278.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2c9074bc3fde5d9b3c10606cd5afc7ea = L.circleMarker(
+                [-10.96, -37.06],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_a49cf87e0d7c1ee25f34145578feb3a5 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_0029fca25a71475bdf5afa07f4cbda3e = $(`<div id="html_0029fca25a71475bdf5afa07f4cbda3e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_a49cf87e0d7c1ee25f34145578feb3a5.setContent(html_0029fca25a71475bdf5afa07f4cbda3e);
+            
+        
+
+        circle_marker_2c9074bc3fde5d9b3c10606cd5afc7ea.bindPopup(popup_a49cf87e0d7c1ee25f34145578feb3a5)
+        ;
+
+        
+    
+    
+            circle_marker_2c9074bc3fde5d9b3c10606cd5afc7ea.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b0dc0a8b3fe3254b9176df8664c06483 = L.circleMarker(
+                [-10.94, -37.1],
+                {"bubblingMouseEvents": true, "color": "#fecc5c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fecc5c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_7479b650e1985c09dcfef0ba9dd39903 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_12947c83de57ab56d9928485420e9743 = $(`<div id="html_12947c83de57ab56d9928485420e9743" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 2.0<br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_7479b650e1985c09dcfef0ba9dd39903.setContent(html_12947c83de57ab56d9928485420e9743);
+            
+        
+
+        circle_marker_b0dc0a8b3fe3254b9176df8664c06483.bindPopup(popup_7479b650e1985c09dcfef0ba9dd39903)
+        ;
+
+        
+    
+    
+            circle_marker_b0dc0a8b3fe3254b9176df8664c06483.bindTooltip(
+                `<div>
+                     Escore: 2.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cd4091f162289cddeed086a10aaaf41b = L.circleMarker(
+                [-10.94, -37.08],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_607a655656604d085b577e20c89c2d7d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_0287e013fc4f33da75792e8140c4589e = $(`<div id="html_0287e013fc4f33da75792e8140c4589e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Barr</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_607a655656604d085b577e20c89c2d7d.setContent(html_0287e013fc4f33da75792e8140c4589e);
+            
+        
+
+        circle_marker_cd4091f162289cddeed086a10aaaf41b.bindPopup(popup_607a655656604d085b577e20c89c2d7d)
+        ;
+
+        
+    
+    
+            circle_marker_cd4091f162289cddeed086a10aaaf41b.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Barr
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_086e35ec93f2e61102561d1f6baed7f6 = L.circleMarker(
+                [-10.89, -37.08],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_8c7477b2cfbf5fc9b5eaed445706094e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_43f415b45ba32c444a67c8b10363a382 = $(`<div id="html_43f415b45ba32c444a67c8b10363a382" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_8c7477b2cfbf5fc9b5eaed445706094e.setContent(html_43f415b45ba32c444a67c8b10363a382);
+            
+        
+
+        circle_marker_086e35ec93f2e61102561d1f6baed7f6.bindPopup(popup_8c7477b2cfbf5fc9b5eaed445706094e)
+        ;
+
+        
+    
+    
+            circle_marker_086e35ec93f2e61102561d1f6baed7f6.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1099c194de9f33f9df37fe19cded68c6 = L.circleMarker(
+                [-10.91, -37.07],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_e7ba295e59010672480c4f1b58f281a3 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_99f3099174119e5e4c6a21b8108cfa18 = $(`<div id="html_99f3099174119e5e4c6a21b8108cfa18" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_e7ba295e59010672480c4f1b58f281a3.setContent(html_99f3099174119e5e4c6a21b8108cfa18);
+            
+        
+
+        circle_marker_1099c194de9f33f9df37fe19cded68c6.bindPopup(popup_e7ba295e59010672480c4f1b58f281a3)
+        ;
+
+        
+    
+    
+            circle_marker_1099c194de9f33f9df37fe19cded68c6.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e05f2d66357792bf959223860e4b53c5 = L.circleMarker(
+                [-10.98, -37.05],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_3977a20872d31e25bc8486c718382a89 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_955b75ac1956c919cab3d124c04cce41 = $(`<div id="html_955b75ac1956c919cab3d124c04cce41" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 60 anos ou mais<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_3977a20872d31e25bc8486c718382a89.setContent(html_955b75ac1956c919cab3d124c04cce41);
+            
+        
+
+        circle_marker_e05f2d66357792bf959223860e4b53c5.bindPopup(popup_3977a20872d31e25bc8486c718382a89)
+        ;
+
+        
+    
+    
+            circle_marker_e05f2d66357792bf959223860e4b53c5.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bc18c63f7364d2a3ac4c83618804c54c = L.circleMarker(
+                [-10.97, -37.08],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_7fba4593db826a7ee5c633733f34b395 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_8c0351e9bc7aa2026413714624ab9c0b = $(`<div id="html_8c0351e9bc7aa2026413714624ab9c0b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> Menos de 18 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_7fba4593db826a7ee5c633733f34b395.setContent(html_8c0351e9bc7aa2026413714624ab9c0b);
+            
+        
+
+        circle_marker_bc18c63f7364d2a3ac4c83618804c54c.bindPopup(popup_7fba4593db826a7ee5c633733f34b395)
+        ;
+
+        
+    
+    
+            circle_marker_bc18c63f7364d2a3ac4c83618804c54c.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4c8b782822742dc42c3037698f81b29d = L.circleMarker(
+                [-11.82, -37.63],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_484ff7b8cc9692f873355508c0610a71 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_c1f84c65f114dad66774980e0e3daefd = $(`<div id="html_c1f84c65f114dad66774980e0e3daefd" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_484ff7b8cc9692f873355508c0610a71.setContent(html_c1f84c65f114dad66774980e0e3daefd);
+            
+        
+
+        circle_marker_4c8b782822742dc42c3037698f81b29d.bindPopup(popup_484ff7b8cc9692f873355508c0610a71)
+        ;
+
+        
+    
+    
+            circle_marker_4c8b782822742dc42c3037698f81b29d.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_085e42c77a5c9bf29715bdf6e50b332e = L.circleMarker(
+                [-11.79, -37.63],
+                {"bubblingMouseEvents": true, "color": "#bd0026", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bd0026", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_73638b33ec3a3a16d7df800f1c0e4fd1 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1c52a3e66c295c7f355ccf8a4ff995c7 = $(`<div id="html_1c52a3e66c295c7f355ccf8a4ff995c7" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 6.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Fossa séptica<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 1.7/10     </div>     </div>`)[0];
+                popup_73638b33ec3a3a16d7df800f1c0e4fd1.setContent(html_1c52a3e66c295c7f355ccf8a4ff995c7);
+            
+        
+
+        circle_marker_085e42c77a5c9bf29715bdf6e50b332e.bindPopup(popup_73638b33ec3a3a16d7df800f1c0e4fd1)
+        ;
+
+        
+    
+    
+            circle_marker_085e42c77a5c9bf29715bdf6e50b332e.bindTooltip(
+                `<div>
+                     Escore: 6.0 | Déficit: 1.7/10 | Conde
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1c3616936ae0e4cae6e3aabf6a9921ac = L.circleMarker(
+                [-10.94, -37.09],
+                {"bubblingMouseEvents": true, "color": "#fecc5c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fecc5c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_9cd40236efd56b2c124f2b95adbfb5f5 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d0e549740e65900323791f7d731f0757 = $(`<div id="html_d0e549740e65900323791f7d731f0757" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 2.0<br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_9cd40236efd56b2c124f2b95adbfb5f5.setContent(html_d0e549740e65900323791f7d731f0757);
+            
+        
+
+        circle_marker_1c3616936ae0e4cae6e3aabf6a9921ac.bindPopup(popup_9cd40236efd56b2c124f2b95adbfb5f5)
+        ;
+
+        
+    
+    
+            circle_marker_1c3616936ae0e4cae6e3aabf6a9921ac.bindTooltip(
+                `<div>
+                     Escore: 2.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4e8a55f896d0c791cc75bdaad0388981 = L.circleMarker(
+                [-11.8, -37.68],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_f5231a195d95ea29c2715adcc504519a = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d3fe6dcd8dd96540cc2b03cba4608691 = $(`<div id="html_d3fe6dcd8dd96540cc2b03cba4608691" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Cisterna<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Queima ou enterra<br>       <b>Déficit sanitário:</b> 10.0/10     </div>     </div>`)[0];
+                popup_f5231a195d95ea29c2715adcc504519a.setContent(html_d3fe6dcd8dd96540cc2b03cba4608691);
+            
+        
+
+        circle_marker_4e8a55f896d0c791cc75bdaad0388981.bindPopup(popup_f5231a195d95ea29c2715adcc504519a)
+        ;
+
+        
+    
+    
+            circle_marker_4e8a55f896d0c791cc75bdaad0388981.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 10.0/10 | Conde
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0e679f6dbae8453d0379f849f65397d8 = L.circleMarker(
+                [-11.8, -37.62],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_1298b9bb67a863238dfef566c21d186f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f0e76560fada5fe1c28abbdb14f00143 = $(`<div id="html_f0e76560fada5fe1c28abbdb14f00143" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Água mineral envasada<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 3.3/10     </div>     </div>`)[0];
+                popup_1298b9bb67a863238dfef566c21d186f.setContent(html_f0e76560fada5fe1c28abbdb14f00143);
+            
+        
+
+        circle_marker_0e679f6dbae8453d0379f849f65397d8.bindPopup(popup_1298b9bb67a863238dfef566c21d186f)
+        ;
+
+        
+    
+    
+            circle_marker_0e679f6dbae8453d0379f849f65397d8.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 3.3/10 | Conde
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f70074839137b161c2ad1ded07c56e05 = L.circleMarker(
+                [-10.94, -37.07],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_0ee60b382f5406a4f5baa57cea7143da = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_3b2d45e85f5b21515a5ba112c3c75c69 = $(`<div id="html_3b2d45e85f5b21515a5ba112c3c75c69" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_0ee60b382f5406a4f5baa57cea7143da.setContent(html_3b2d45e85f5b21515a5ba112c3c75c69);
+            
+        
+
+        circle_marker_f70074839137b161c2ad1ded07c56e05.bindPopup(popup_0ee60b382f5406a4f5baa57cea7143da)
+        ;
+
+        
+    
+    
+            circle_marker_f70074839137b161c2ad1ded07c56e05.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_badd54b76f00325c60bf1cfebaa46fd6 = L.circleMarker(
+                [-11.26, -37.43],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_51c29d99ef203a3e3b9759fb54d53863 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_9947dab6e9abc2307bebf35834e44bc4 = $(`<div id="html_9947dab6e9abc2307bebf35834e44bc4" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Estancia</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_51c29d99ef203a3e3b9759fb54d53863.setContent(html_9947dab6e9abc2307bebf35834e44bc4);
+            
+        
+
+        circle_marker_badd54b76f00325c60bf1cfebaa46fd6.bindPopup(popup_51c29d99ef203a3e3b9759fb54d53863)
+        ;
+
+        
+    
+    
+            circle_marker_badd54b76f00325c60bf1cfebaa46fd6.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 0.0/10 | Estancia
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6029b580c18c5acfbca09eda6f14bad1 = L.circleMarker(
+                [-10.94, -37.07],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_66a27e6b202deb85c4dd872d9329a107 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_6c9e93f5aa6efbfd611037ac32872334 = $(`<div id="html_6c9e93f5aa6efbfd611037ac32872334" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_66a27e6b202deb85c4dd872d9329a107.setContent(html_6c9e93f5aa6efbfd611037ac32872334);
+            
+        
+
+        circle_marker_6029b580c18c5acfbca09eda6f14bad1.bindPopup(popup_66a27e6b202deb85c4dd872d9329a107)
+        ;
+
+        
+    
+    
+            circle_marker_6029b580c18c5acfbca09eda6f14bad1.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4da6bc7fa35983e2863a9110647e8960 = L.circleMarker(
+                [-10.94, -37.07],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_3f3e27fb404fd4402db4978c3b9aefc8 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f7f7760b5194a875add02813931b50d9 = $(`<div id="html_f7f7760b5194a875add02813931b50d9" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_3f3e27fb404fd4402db4978c3b9aefc8.setContent(html_f7f7760b5194a875add02813931b50d9);
+            
+        
+
+        circle_marker_4da6bc7fa35983e2863a9110647e8960.bindPopup(popup_3f3e27fb404fd4402db4978c3b9aefc8)
+        ;
+
+        
+    
+    
+            circle_marker_4da6bc7fa35983e2863a9110647e8960.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dea22238fef8019d94de7962614557fc = L.circleMarker(
+                [-10.94, -37.12],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_29986f8d9e3cc9c1c1b71addeb6592d1 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_69d03bf96f4f338765e4bb32f5ef0d29 = $(`<div id="html_69d03bf96f4f338765e4bb32f5ef0d29" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Outra<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Outra<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 6.7/10     </div>     </div>`)[0];
+                popup_29986f8d9e3cc9c1c1b71addeb6592d1.setContent(html_69d03bf96f4f338765e4bb32f5ef0d29);
+            
+        
+
+        circle_marker_dea22238fef8019d94de7962614557fc.bindPopup(popup_29986f8d9e3cc9c1c1b71addeb6592d1)
+        ;
+
+        
+    
+    
+            circle_marker_dea22238fef8019d94de7962614557fc.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 6.7/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1f713fbfb0c16e2216ec9a02a1efb5a5 = L.circleMarker(
+                [-10.97, -37.06],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_b74bdfcead26cac5933cbf64abdd844c = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_ab45c804508840fdb5b6f8af528c4d97 = $(`<div id="html_ab45c804508840fdb5b6f8af528c4d97" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_b74bdfcead26cac5933cbf64abdd844c.setContent(html_ab45c804508840fdb5b6f8af528c4d97);
+            
+        
+
+        circle_marker_1f713fbfb0c16e2216ec9a02a1efb5a5.bindPopup(popup_b74bdfcead26cac5933cbf64abdd844c)
+        ;
+
+        
+    
+    
+            circle_marker_1f713fbfb0c16e2216ec9a02a1efb5a5.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_adf3793044fd44310cabd5a4a09bc2a0 = L.circleMarker(
+                [-10.97, -37.06],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_3bfc1b9f1768ea292636a6b02f152558 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_6860297f26e51c83a27877e9029d055c = $(`<div id="html_6860297f26e51c83a27877e9029d055c" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_3bfc1b9f1768ea292636a6b02f152558.setContent(html_6860297f26e51c83a27877e9029d055c);
+            
+        
+
+        circle_marker_adf3793044fd44310cabd5a4a09bc2a0.bindPopup(popup_3bfc1b9f1768ea292636a6b02f152558)
+        ;
+
+        
+    
+    
+            circle_marker_adf3793044fd44310cabd5a4a09bc2a0.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c70ceccc616c5b48ae41c2cd0fe9c8c3 = L.circleMarker(
+                [-11.82, -37.63],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_e3242bc13cd8ee5c472b786757503dad = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1e65d857ed03861642ea94195aa51aa6 = $(`<div id="html_1e65d857ed03861642ea94195aa51aa6" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 3.3/10     </div>     </div>`)[0];
+                popup_e3242bc13cd8ee5c472b786757503dad.setContent(html_1e65d857ed03861642ea94195aa51aa6);
+            
+        
+
+        circle_marker_c70ceccc616c5b48ae41c2cd0fe9c8c3.bindPopup(popup_e3242bc13cd8ee5c472b786757503dad)
+        ;
+
+        
+    
+    
+            circle_marker_c70ceccc616c5b48ae41c2cd0fe9c8c3.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 3.3/10 | Conde
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_cbb2318cc4e3036851161a4e98a8fbb3 = L.circleMarker(
+                [-10.94, -37.07],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_53cec589004ec2f6400e0854b3d9ad1e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_b81bdc961f797d79d6dea8d61b4f1757 = $(`<div id="html_b81bdc961f797d79d6dea8d61b4f1757" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_53cec589004ec2f6400e0854b3d9ad1e.setContent(html_b81bdc961f797d79d6dea8d61b4f1757);
+            
+        
+
+        circle_marker_cbb2318cc4e3036851161a4e98a8fbb3.bindPopup(popup_53cec589004ec2f6400e0854b3d9ad1e)
+        ;
+
+        
+    
+    
+            circle_marker_cbb2318cc4e3036851161a4e98a8fbb3.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1b8515f0502eb2e6362a5359a243835a = L.circleMarker(
+                [-10.89, -37.12],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_52dd5a920069b04f29330d0dee89d1a6 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_39f1eb6baacddd39c67c2a2caee03d7d = $(`<div id="html_39f1eb6baacddd39c67c2a2caee03d7d" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_52dd5a920069b04f29330d0dee89d1a6.setContent(html_39f1eb6baacddd39c67c2a2caee03d7d);
+            
+        
+
+        circle_marker_1b8515f0502eb2e6362a5359a243835a.bindPopup(popup_52dd5a920069b04f29330d0dee89d1a6)
+        ;
+
+        
+    
+    
+            circle_marker_1b8515f0502eb2e6362a5359a243835a.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1bc98173e28f069d7f650a9f8a113b2d = L.circleMarker(
+                [-23.78, -45.56],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_62d201c9d799b7d147140a7e62353b61 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f3e17fb7d4accbdc52853b9eb8a746d9 = $(`<div id="html_f3e17fb7d4accbdc52853b9eb8a746d9" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde-Ba</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rio ou lago<br>       <b>Água (tratamento):</b> Cloração<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 8.3/10     </div>     </div>`)[0];
+                popup_62d201c9d799b7d147140a7e62353b61.setContent(html_f3e17fb7d4accbdc52853b9eb8a746d9);
+            
+        
+
+        circle_marker_1bc98173e28f069d7f650a9f8a113b2d.bindPopup(popup_62d201c9d799b7d147140a7e62353b61)
+        ;
+
+        
+    
+    
+            circle_marker_1bc98173e28f069d7f650a9f8a113b2d.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 8.3/10 | Conde-Ba
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0759b48ce9719872b7bec98c523154ca = L.circleMarker(
+                [-11.77, -37.8],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_c3ed13421894662f2d576d452df8c251 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_c09c536c44e9606125ddb3662bacf848 = $(`<div id="html_c09c536c44e9606125ddb3662bacf848" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde Ba</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_c3ed13421894662f2d576d452df8c251.setContent(html_c09c536c44e9606125ddb3662bacf848);
+            
+        
+
+        circle_marker_0759b48ce9719872b7bec98c523154ca.bindPopup(popup_c3ed13421894662f2d576d452df8c251)
+        ;
+
+        
+    
+    
+            circle_marker_0759b48ce9719872b7bec98c523154ca.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 0.0/10 | Conde Ba
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f5e3d2d3755e32ab06f562606f2cdd46 = L.circleMarker(
+                [-10.94, -37.12],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_914503637fe17098038b309de46ef7db = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_36658cdf6edbcb6ca0d2b1a29ab5a776 = $(`<div id="html_36658cdf6edbcb6ca0d2b1a29ab5a776" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Rosa Elze - São Cristóvão</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_914503637fe17098038b309de46ef7db.setContent(html_36658cdf6edbcb6ca0d2b1a29ab5a776);
+            
+        
+
+        circle_marker_f5e3d2d3755e32ab06f562606f2cdd46.bindPopup(popup_914503637fe17098038b309de46ef7db)
+        ;
+
+        
+    
+    
+            circle_marker_f5e3d2d3755e32ab06f562606f2cdd46.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Rosa Elze - São Cristóvão
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b3dbe8aa38b3d0a1825aafa41f6f9fab = L.circleMarker(
+                [-10.97, -37.07],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_0162220611d68f6686eb8003fe256635 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_19417c961facd5547db2c38fa7325a5b = $(`<div id="html_19417c961facd5547db2c38fa7325a5b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Nossa Senhora Do Socorro</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Cloração; Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_0162220611d68f6686eb8003fe256635.setContent(html_19417c961facd5547db2c38fa7325a5b);
+            
+        
+
+        circle_marker_b3dbe8aa38b3d0a1825aafa41f6f9fab.bindPopup(popup_0162220611d68f6686eb8003fe256635)
+        ;
+
+        
+    
+    
+            circle_marker_b3dbe8aa38b3d0a1825aafa41f6f9fab.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Nossa Senhora Do Socorro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d4511e44e526309005a3d5e7344f08dc = L.circleMarker(
+                [-11.06, -37.11],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_fd98e4c1f4c7b850023f523231c7a8b5 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_3d4ebb5a1b074a568ce73ea4512c3a89 = $(`<div id="html_3d4ebb5a1b074a568ce73ea4512c3a89" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_fd98e4c1f4c7b850023f523231c7a8b5.setContent(html_3d4ebb5a1b074a568ce73ea4512c3a89);
+            
+        
+
+        circle_marker_d4511e44e526309005a3d5e7344f08dc.bindPopup(popup_fd98e4c1f4c7b850023f523231c7a8b5)
+        ;
+
+        
+    
+    
+            circle_marker_d4511e44e526309005a3d5e7344f08dc.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_05d28472f8f481b37902d65cdfe34f48 = L.circleMarker(
+                [-22.73, -44.14],
+                {"bubblingMouseEvents": true, "color": "#bd0026", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bd0026", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_f8e39618d87ca44ae92edf0e3551c073 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_38c78b658601f2b1ad5a9f6de59a75bd = $(`<div id="html_38c78b658601f2b1ad5a9f6de59a75bd" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Saquarema</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 6.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Poço ou nascente<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 6.7/10     </div>     </div>`)[0];
+                popup_f8e39618d87ca44ae92edf0e3551c073.setContent(html_38c78b658601f2b1ad5a9f6de59a75bd);
+            
+        
+
+        circle_marker_05d28472f8f481b37902d65cdfe34f48.bindPopup(popup_f8e39618d87ca44ae92edf0e3551c073)
+        ;
+
+        
+    
+    
+            circle_marker_05d28472f8f481b37902d65cdfe34f48.bindTooltip(
+                `<div>
+                     Escore: 6.0 | Déficit: 6.7/10 | Saquarema
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3d7242a45b9035aa92689eeb8175a007 = L.circleMarker(
+                [-10.94, -37.06],
+                {"bubblingMouseEvents": true, "color": "#fecc5c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fecc5c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_a3e631810d59dc2f6415cd9b24c5c0a4 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f178ab8c50104a29a90a9f37a225f25d = $(`<div id="html_f178ab8c50104a29a90a9f37a225f25d" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 2.0<br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_a3e631810d59dc2f6415cd9b24c5c0a4.setContent(html_f178ab8c50104a29a90a9f37a225f25d);
+            
+        
+
+        circle_marker_3d7242a45b9035aa92689eeb8175a007.bindPopup(popup_a3e631810d59dc2f6415cd9b24c5c0a4)
+        ;
+
+        
+    
+    
+            circle_marker_3d7242a45b9035aa92689eeb8175a007.bindTooltip(
+                `<div>
+                     Escore: 2.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9fe19954fd3b3dcad53947e5642d2e77 = L.circleMarker(
+                [-11.79, -37.62],
+                {"bubblingMouseEvents": true, "color": "#bd0026", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bd0026", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_f69fd4122a8d45dce2342ea6963d487e = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_3a65fb744a159a61e6d05c3852248b82 = $(`<div id="html_3a65fb744a159a61e6d05c3852248b82" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 7.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 45 - 59 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Poço ou nascente<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Fossa séptica<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 5.0/10     </div>     </div>`)[0];
+                popup_f69fd4122a8d45dce2342ea6963d487e.setContent(html_3a65fb744a159a61e6d05c3852248b82);
+            
+        
+
+        circle_marker_9fe19954fd3b3dcad53947e5642d2e77.bindPopup(popup_f69fd4122a8d45dce2342ea6963d487e)
+        ;
+
+        
+    
+    
+            circle_marker_9fe19954fd3b3dcad53947e5642d2e77.bindTooltip(
+                `<div>
+                     Escore: 7.0 | Déficit: 5.0/10 | Conde
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d37237ef48c9bfc67eba0890ca1c5e71 = L.circleMarker(
+                [-10.88, -36.99],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_102b59da9c6e94e6cb8926ae1c6eff43 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a3bacf22cfcf97669e40197f1385ca5e = $(`<div id="html_a3bacf22cfcf97669e40197f1385ca5e" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 3.3/10     </div>     </div>`)[0];
+                popup_102b59da9c6e94e6cb8926ae1c6eff43.setContent(html_a3bacf22cfcf97669e40197f1385ca5e);
+            
+        
+
+        circle_marker_d37237ef48c9bfc67eba0890ca1c5e71.bindPopup(popup_102b59da9c6e94e6cb8926ae1c6eff43)
+        ;
+
+        
+    
+    
+            circle_marker_d37237ef48c9bfc67eba0890ca1c5e71.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 3.3/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9df45f18751d5b5f77ca6fbced534ca7 = L.circleMarker(
+                [-10.91, -37.02],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_9692bf2a5f01a9cdb37a017e8e624055 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1628b7dbf4e6f849253aee50acc1d098 = $(`<div id="html_1628b7dbf4e6f849253aee50acc1d098" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Barra Dos Coqueiros</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_9692bf2a5f01a9cdb37a017e8e624055.setContent(html_1628b7dbf4e6f849253aee50acc1d098);
+            
+        
+
+        circle_marker_9df45f18751d5b5f77ca6fbced534ca7.bindPopup(popup_9692bf2a5f01a9cdb37a017e8e624055)
+        ;
+
+        
+    
+    
+            circle_marker_9df45f18751d5b5f77ca6fbced534ca7.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Barra Dos Coqueiros
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_86adc74caf09810c5969d60eec872e0a = L.circleMarker(
+                [-10.94, -37.07],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_ddf995b4fc5e60fb6d880fb8acbd7c74 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_92556005438692aa9a004946345ce016 = $(`<div id="html_92556005438692aa9a004946345ce016" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_ddf995b4fc5e60fb6d880fb8acbd7c74.setContent(html_92556005438692aa9a004946345ce016);
+            
+        
+
+        circle_marker_86adc74caf09810c5969d60eec872e0a.bindPopup(popup_ddf995b4fc5e60fb6d880fb8acbd7c74)
+        ;
+
+        
+    
+    
+            circle_marker_86adc74caf09810c5969d60eec872e0a.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6b80d711e7cda6d2e3231943fe9a4de8 = L.circleMarker(
+                [-10.93, -37.06],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_5c61d67bac3151b71b21d32e941f255a = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1b800bb9732275496de21785f0ffae26 = $(`<div id="html_1b800bb9732275496de21785f0ffae26" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_5c61d67bac3151b71b21d32e941f255a.setContent(html_1b800bb9732275496de21785f0ffae26);
+            
+        
+
+        circle_marker_6b80d711e7cda6d2e3231943fe9a4de8.bindPopup(popup_5c61d67bac3151b71b21d32e941f255a)
+        ;
+
+        
+    
+    
+            circle_marker_6b80d711e7cda6d2e3231943fe9a4de8.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8418d4c0fe8b00ed01b8d38b5c3554fa = L.circleMarker(
+                [-11.79, -37.62],
+                {"bubblingMouseEvents": true, "color": "#bd0026", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bd0026", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_64bfbe9b85f971c467e95e096604b5c8 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_f16e3329199c68851c0423c07d3a3ea9 = $(`<div id="html_f16e3329199c68851c0423c07d3a3ea9" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 6.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Fossa séptica<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 1.7/10     </div>     </div>`)[0];
+                popup_64bfbe9b85f971c467e95e096604b5c8.setContent(html_f16e3329199c68851c0423c07d3a3ea9);
+            
+        
+
+        circle_marker_8418d4c0fe8b00ed01b8d38b5c3554fa.bindPopup(popup_64bfbe9b85f971c467e95e096604b5c8)
+        ;
+
+        
+    
+    
+            circle_marker_8418d4c0fe8b00ed01b8d38b5c3554fa.bindTooltip(
+                `<div>
+                     Escore: 6.0 | Déficit: 1.7/10 | Conde
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e0df03a1b8a87273224b3d3dc4feec32 = L.circleMarker(
+                [-10.93, -37.05],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_fc1b957d288491ec8242a5df852205fc = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_90f76d6660c7298f50bdca5cfd231bd1 = $(`<div id="html_90f76d6660c7298f50bdca5cfd231bd1" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_fc1b957d288491ec8242a5df852205fc.setContent(html_90f76d6660c7298f50bdca5cfd231bd1);
+            
+        
+
+        circle_marker_e0df03a1b8a87273224b3d3dc4feec32.bindPopup(popup_fc1b957d288491ec8242a5df852205fc)
+        ;
+
+        
+    
+    
+            circle_marker_e0df03a1b8a87273224b3d3dc4feec32.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_22c7685e152dac5886a0a8a8beb6ef2d = L.circleMarker(
+                [-9.8, -37.69],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_331319c97b36231d278b717da8d3edb1 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a3c2246a73da4aeb328b8e53eb194050 = $(`<div id="html_a3c2246a73da4aeb328b8e53eb194050" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Poço Redondo</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Não trata<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 5.0/10     </div>     </div>`)[0];
+                popup_331319c97b36231d278b717da8d3edb1.setContent(html_a3c2246a73da4aeb328b8e53eb194050);
+            
+        
+
+        circle_marker_22c7685e152dac5886a0a8a8beb6ef2d.bindPopup(popup_331319c97b36231d278b717da8d3edb1)
+        ;
+
+        
+    
+    
+            circle_marker_22c7685e152dac5886a0a8a8beb6ef2d.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 5.0/10 | Poço Redondo
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4510454aa88edd638c5a998b4a870630 = L.circleMarker(
+                [-11.0, -37.11],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_0d4ad49b0ed68b2a10fb33ff4890c077 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_7ad468f6a5c43fde54708c743cacd613 = $(`<div id="html_7ad468f6a5c43fde54708c743cacd613" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_0d4ad49b0ed68b2a10fb33ff4890c077.setContent(html_7ad468f6a5c43fde54708c743cacd613);
+            
+        
+
+        circle_marker_4510454aa88edd638c5a998b4a870630.bindPopup(popup_0d4ad49b0ed68b2a10fb33ff4890c077)
+        ;
+
+        
+    
+    
+            circle_marker_4510454aa88edd638c5a998b4a870630.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_df4dc44df7e7ad5309f7cbab329c2382 = L.circleMarker(
+                [-11.49, -37.75],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_af48d5d892973cb17cf04ea7c720b804 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_a43140a5aa5d8d8be94ba7601a993a03 = $(`<div id="html_a43140a5aa5d8d8be94ba7601a993a03" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Cristinápolis</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> A céu aberto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 5.0/10     </div>     </div>`)[0];
+                popup_af48d5d892973cb17cf04ea7c720b804.setContent(html_a43140a5aa5d8d8be94ba7601a993a03);
+            
+        
+
+        circle_marker_df4dc44df7e7ad5309f7cbab329c2382.bindPopup(popup_af48d5d892973cb17cf04ea7c720b804)
+        ;
+
+        
+    
+    
+            circle_marker_df4dc44df7e7ad5309f7cbab329c2382.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 5.0/10 | Cristinápolis
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_08e0c43c40d7c86e54bcb5d07c69cad4 = L.circleMarker(
+                [-10.86, -37.09],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_d1bb808a1daf81f0709dfc195b85d1ff = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_1be262986a4783a5a66aed64be34a7aa = $(`<div id="html_1be262986a4783a5a66aed64be34a7aa" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Nossa Senhora Do Socorro</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_d1bb808a1daf81f0709dfc195b85d1ff.setContent(html_1be262986a4783a5a66aed64be34a7aa);
+            
+        
+
+        circle_marker_08e0c43c40d7c86e54bcb5d07c69cad4.bindPopup(popup_d1bb808a1daf81f0709dfc195b85d1ff)
+        ;
+
+        
+    
+    
+            circle_marker_08e0c43c40d7c86e54bcb5d07c69cad4.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Nossa Senhora Do Socorro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ba7116595abd4cd0e68ee45f7c8b1325 = L.circleMarker(
+                [-11.81, -37.62],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_3f05e3118d01b4b5e8a87ea4168f3b9c = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_6d87239cc7c07ddc83c0079c383c0627 = $(`<div id="html_6d87239cc7c07ddc83c0079c383c0627" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Conde</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Outra<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 3.3/10     </div>     </div>`)[0];
+                popup_3f05e3118d01b4b5e8a87ea4168f3b9c.setContent(html_6d87239cc7c07ddc83c0079c383c0627);
+            
+        
+
+        circle_marker_ba7116595abd4cd0e68ee45f7c8b1325.bindPopup(popup_3f05e3118d01b4b5e8a87ea4168f3b9c)
+        ;
+
+        
+    
+    
+            circle_marker_ba7116595abd4cd0e68ee45f7c8b1325.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 3.3/10 | Conde
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_00e7892501e89e4b08cc1371c4b967e4 = L.circleMarker(
+                [-10.91, -37.1],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_3cd6c2ddf47a7c54a641ba530fe6a6bd = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_559461bda731f84f71a8df6cc51b75e9 = $(`<div id="html_559461bda731f84f71a8df6cc51b75e9" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Não trata<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 5.0/10     </div>     </div>`)[0];
+                popup_3cd6c2ddf47a7c54a641ba530fe6a6bd.setContent(html_559461bda731f84f71a8df6cc51b75e9);
+            
+        
+
+        circle_marker_00e7892501e89e4b08cc1371c4b967e4.bindPopup(popup_3cd6c2ddf47a7c54a641ba530fe6a6bd)
+        ;
+
+        
+    
+    
+            circle_marker_00e7892501e89e4b08cc1371c4b967e4.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 5.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4934579c26f3aaf7aa42cc3eac86424b = L.circleMarker(
+                [-10.89, -37.1],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_8a2acb852198041cb08b9bebe8d3c6a0 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_d770e4928c9114a2cc6df76c1fa601b8 = $(`<div id="html_d770e4928c9114a2cc6df76c1fa601b8" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_8a2acb852198041cb08b9bebe8d3c6a0.setContent(html_d770e4928c9114a2cc6df76c1fa601b8);
+            
+        
+
+        circle_marker_4934579c26f3aaf7aa42cc3eac86424b.bindPopup(popup_8a2acb852198041cb08b9bebe8d3c6a0)
+        ;
+
+        
+    
+    
+            circle_marker_4934579c26f3aaf7aa42cc3eac86424b.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_47af60c29e49fad1a5fd3d493e8bf6d5 = L.circleMarker(
+                [-10.92, -37.05],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_cff62daec161f4982a397a77477f8b9d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_58be9c9667227993eee6c4542707177f = $(`<div id="html_58be9c9667227993eee6c4542707177f" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 5.0<br>       <b>Perfil:</b> Ascaridíase (Lombriga)<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> Menos de 18 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 3.3/10     </div>     </div>`)[0];
+                popup_cff62daec161f4982a397a77477f8b9d.setContent(html_58be9c9667227993eee6c4542707177f);
+            
+        
+
+        circle_marker_47af60c29e49fad1a5fd3d493e8bf6d5.bindPopup(popup_cff62daec161f4982a397a77477f8b9d)
+        ;
+
+        
+    
+    
+            circle_marker_47af60c29e49fad1a5fd3d493e8bf6d5.bindTooltip(
+                `<div>
+                     Escore: 5.0 | Déficit: 3.3/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d80b35dea7c0ce8de70643480c57e5cb = L.circleMarker(
+                [-10.9, -37.1],
+                {"bubblingMouseEvents": true, "color": "#fecc5c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fecc5c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_f3ecafbcbafd06bf81aac1b8a6643137 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_c7aacadc4ba6bbed18b446b234e94487 = $(`<div id="html_c7aacadc4ba6bbed18b446b234e94487" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 2.0<br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> Menos de 18 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico; Água mineral envasada<br>       <b>Esgoto:</b> Fossa rudimentar<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 3.3/10     </div>     </div>`)[0];
+                popup_f3ecafbcbafd06bf81aac1b8a6643137.setContent(html_c7aacadc4ba6bbed18b446b234e94487);
+            
+        
+
+        circle_marker_d80b35dea7c0ce8de70643480c57e5cb.bindPopup(popup_f3ecafbcbafd06bf81aac1b8a6643137)
+        ;
+
+        
+    
+    
+            circle_marker_d80b35dea7c0ce8de70643480c57e5cb.bindTooltip(
+                `<div>
+                     Escore: 2.0 | Déficit: 3.3/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_0eba9a38bea4d2c54d32ef1cf05ee414 = L.circleMarker(
+                [-10.9, -37.1],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_44ca10d8da8aff4ee729924310dce85f = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_cddde191882bca9c89236a997215d3dc = $(`<div id="html_cddde191882bca9c89236a997215d3dc" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_44ca10d8da8aff4ee729924310dce85f.setContent(html_cddde191882bca9c89236a997215d3dc);
+            
+        
+
+        circle_marker_0eba9a38bea4d2c54d32ef1cf05ee414.bindPopup(popup_44ca10d8da8aff4ee729924310dce85f)
+        ;
+
+        
+    
+    
+            circle_marker_0eba9a38bea4d2c54d32ef1cf05ee414.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_632b0f9b2fd3076a22b50b4ec86ae3a5 = L.circleMarker(
+                [-10.92, -37.07],
+                {"bubblingMouseEvents": true, "color": "#bd0026", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#bd0026", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_9d2c28fef5e559d26964981d89ccda62 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_6699a6eb93752be7368356fffd2ef24b = $(`<div id="html_6699a6eb93752be7368356fffd2ef24b" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Aracaju</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 8.0<br>       <b>Perfil:</b> Giardíase<br>       <b>Sexo:</b> Feminino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Filtro doméstico<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_9d2c28fef5e559d26964981d89ccda62.setContent(html_6699a6eb93752be7368356fffd2ef24b);
+            
+        
+
+        circle_marker_632b0f9b2fd3076a22b50b4ec86ae3a5.bindPopup(popup_9d2c28fef5e559d26964981d89ccda62)
+        ;
+
+        
+    
+    
+            circle_marker_632b0f9b2fd3076a22b50b4ec86ae3a5.bindTooltip(
+                `<div>
+                     Escore: 8.0 | Déficit: 0.0/10 | Aracaju
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_77634d0f0d4b6e9ab0eb1ef2e4621ecd = L.circleMarker(
+                [-10.94, -37.08],
+                {"bubblingMouseEvents": true, "color": "#aaaaaa", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#aaaaaa", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_60787d926975768ff6b7b661a97b60c6 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2313269587b0694eb207f914df15b766 = $(`<div id="html_2313269587b0694eb207f914df15b766" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Barra Dos Coqueiros</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> Assintomático (0) <span style='color:#888;font-size:10px'>(assintomático)</span><br>       <b>Perfil:</b> Inespecífico<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 30 - 44 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_60787d926975768ff6b7b661a97b60c6.setContent(html_2313269587b0694eb207f914df15b766);
+            
+        
+
+        circle_marker_77634d0f0d4b6e9ab0eb1ef2e4621ecd.bindPopup(popup_60787d926975768ff6b7b661a97b60c6)
+        ;
+
+        
+    
+    
+            circle_marker_77634d0f0d4b6e9ab0eb1ef2e4621ecd.bindTooltip(
+                `<div>
+                     Escore: 0.0 | Déficit: 0.0/10 | Barra Dos Coqueiros
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_42f44230c41e679a8bb782fe6a498a36 = L.circleMarker(
+                [-10.91, -37.05],
+                {"bubblingMouseEvents": true, "color": "#fd8d3c", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#fd8d3c", "fillOpacity": 0.8, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5, "stroke": true, "weight": 3}
+            ).addTo(feature_group_a28be1f37d5f48ed7f396990004f52ed);
+        
+    
+        var popup_c6aea7ffe6403e1a04659ec7ef28089d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_82f691081d6f7e53944b50ccb40dddd9 = $(`<div id="html_82f691081d6f7e53944b50ccb40dddd9" style="width: 100.0%; height: 100.0%;">     <div style='font-family:Arial;font-size:12px;min-width:210px;line-height:1.6'>       <b style='font-size:13px'>📍 Nossa Senhora Do Socorro</b><br>       <hr style='margin:4px 0;border-color:#eee'>       <b>Escore:</b> 4.0<br>       <b>Perfil:</b> Ancilostomíase (Amarelão)<br>       <b>Sexo:</b> Masculino | <b>Idade:</b> 18 - 29 anos<br>       <hr style='margin:4px 0;border-color:#eee'>       <b>🏗️ Infraestrutura</b><br>       <b>Água (fonte):</b> Rede pública<br>       <b>Água (tratamento):</b> Água mineral envasada<br>       <b>Esgoto:</b> Rede pública de esgoto<br>       <b>Lixo:</b> Coleta regular<br>       <b>Déficit sanitário:</b> 0.0/10     </div>     </div>`)[0];
+                popup_c6aea7ffe6403e1a04659ec7ef28089d.setContent(html_82f691081d6f7e53944b50ccb40dddd9);
+            
+        
+
+        circle_marker_42f44230c41e679a8bb782fe6a498a36.bindPopup(popup_c6aea7ffe6403e1a04659ec7ef28089d)
+        ;
+
+        
+    
+    
+            circle_marker_42f44230c41e679a8bb782fe6a498a36.bindTooltip(
+                `<div>
+                     Escore: 4.0 | Déficit: 0.0/10 | Nossa Senhora Do Socorro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_a28be1f37d5f48ed7f396990004f52ed.addTo(map_6fd07c13104c68dcd2362e82dcdf1c81);
+        
+    
+            var layer_control_66099d22ea947ddafc70306535a05201_layers = {
+                base_layers : {
+                    "cartodbpositron" : tile_layer_4248892f23ed3e69f06780e65d3cef37,
+                },
+                overlays :  {
+                    "\ud83d\udd25 Risco Parasit\u00e1rio (Escore)" : feature_group_bbeb3b0f7eb16a46a357e705a2a1b264,
+                    "\ud83c\udfda\ufe0f D\u00e9ficit de Infraestrutura Sanit\u00e1ria" : feature_group_cff900492c87691dcc320a2cae8cc87f,
+                    "\ud83d\udccd Participantes (clique para detalhes)" : feature_group_a28be1f37d5f48ed7f396990004f52ed,
+                },
+            };
+            let layer_control_66099d22ea947ddafc70306535a05201 = L.control.layers(
+                layer_control_66099d22ea947ddafc70306535a05201_layers.base_layers,
+                layer_control_66099d22ea947ddafc70306535a05201_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_6fd07c13104c68dcd2362e82dcdf1c81);
+
+        
+</script>
+</html>
